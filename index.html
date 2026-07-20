@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1317">
+<title>Ruck Ready</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1317; --bg2:#161c22; --panel:#1b232b; --panel2:#212b34;
+    --line:#2c3844; --ink:#e7ecef; --dim:#8b98a3; --dim2:#5f6c76;
+    --olive:#9dae3f; --olive-d:#7c8a2f; --amber:#d9a441; --red:#c65a4a; --green:#5aa06a;
+    --stencil:'Oswald',system-ui,sans-serif; --body:'Barlow',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--body);
+    min-height:100vh; padding-bottom:84px;
+    background-image:radial-gradient(circle at 20% -10%, #1a2129 0, var(--bg) 55%);
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;background:rgba(15,19,23,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  .hbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;max-width:640px;margin:0 auto}
+  .logo{font-family:var(--stencil);font-weight:700;letter-spacing:3px;font-size:22px;text-transform:uppercase}
+  .logo b{color:var(--olive)}
+  .logo .tick{color:var(--dim2);font-weight:400;font-size:11px;letter-spacing:2px;display:block;margin-top:-2px}
+  .streak{display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);
+    padding:7px 12px;border-radius:8px;font-family:var(--stencil);letter-spacing:1px}
+  .streak .n{color:var(--amber);font-weight:700;font-size:18px}
+  .streak .l{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;line-height:1}
+
+  h2.section{font-family:var(--stencil);text-transform:uppercase;letter-spacing:2px;
+    font-size:13px;color:var(--dim);margin:26px 2px 12px;font-weight:600}
+  h2.section:first-of-type{margin-top:20px}
+
+  /* ---------- check-in controls ---------- */
+  .grid{display:grid;gap:9px}
+  .grid.two{grid-template-columns:1fr 1fr}
+  .grid.four{grid-template-columns:1fr 1fr 1fr 1fr}
+  .opt{
+    background:var(--panel);border:1px solid var(--line);border-radius:11px;
+    padding:14px 12px;text-align:center;cursor:pointer;user-select:none;transition:.12s;
+    font-family:var(--stencil);text-transform:uppercase;letter-spacing:.5px;color:var(--ink);
+  }
+  .opt small{display:block;font-family:var(--body);text-transform:none;letter-spacing:0;
+    color:var(--dim);font-size:11.5px;margin-top:3px;font-weight:400}
+  .opt .big{font-size:17px;font-weight:600}
+  .opt:hover{border-color:#3a4a58}
+  .opt.sel{border-color:var(--olive);background:linear-gradient(180deg,#232c22,var(--panel));box-shadow:inset 0 0 0 1px var(--olive)}
+  .opt.sel .big,.opt.sel .lab{color:var(--olive)}
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);
+    border-radius:20px;padding:9px 15px;cursor:pointer;font-size:14px;font-weight:500;transition:.12s
+  }
+  .chip:hover{border-color:#3a4a58}
+  .chip.sel{background:#3a2620;border-color:var(--red);color:#f0c3ba}
+  .chip.none.sel{background:#23331f;border-color:var(--green);color:#c2e0c4}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+
+  .cta{
+    width:100%;margin-top:26px;padding:18px;border:none;border-radius:12px;cursor:pointer;
+    background:linear-gradient(180deg,var(--olive),var(--olive-d));color:#141a0d;
+    font-family:var(--stencil);font-weight:700;letter-spacing:3px;text-transform:uppercase;font-size:17px;
+    box-shadow:0 6px 20px rgba(157,174,63,.22)
+  }
+  .cta:active{transform:translateY(1px)}
+  .cta.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line);box-shadow:none;letter-spacing:2px;font-size:14px}
+
+  /* ---------- workout ---------- */
+  .brief{
+    background:linear-gradient(160deg,#20281d,#171d16);border:1px solid #33401f;
+    border-radius:14px;padding:18px 18px 16px;margin-top:8px;position:relative;overflow:hidden
+  }
+  .brief:before{content:"";position:absolute;inset:0;background:
+    repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(157,174,63,.03) 12px,rgba(157,174,63,.03) 24px)}
+  .brief .kick{font-family:var(--stencil);letter-spacing:3px;font-size:11px;color:var(--olive);text-transform:uppercase}
+  .brief h1{font-family:var(--stencil);text-transform:uppercase;letter-spacing:1.5px;
+    font-size:30px;margin:2px 0 8px;line-height:1;font-weight:700}
+  .meta{display:flex;flex-wrap:wrap;gap:7px;position:relative}
+  .tag{background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:6px;padding:5px 10px;
+    font-size:11px;font-family:var(--stencil);letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+  .tag b{color:var(--ink)}
+  .note{position:relative;margin-top:12px;font-size:13.5px;color:#cdd8c9;line-height:1.5;
+    border-left:2px solid var(--olive);padding-left:11px}
+  .note.sore{border-color:var(--amber);color:#e6d4b0;margin-top:9px}
+
+  .block{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden}
+  .block .bh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    padding:13px 15px;background:var(--panel2);border-bottom:1px solid var(--line)}
+  .block .bh h3{margin:0;font-family:var(--stencil);text-transform:uppercase;letter-spacing:1.2px;font-size:16px;font-weight:600}
+  .block .bh .fmt{font-size:11.5px;color:var(--olive);text-align:right;font-weight:500;max-width:52%}
+  .ex{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 15px;border-bottom:1px solid #232d36}
+  .ex:last-child{border-bottom:none}
+  .ex .exn{font-weight:600;font-size:15.5px}
+  .ex .exm{font-size:11px;color:var(--dim2);margin-top:2px;text-transform:capitalize}
+  .ex .rx{font-family:var(--stencil);letter-spacing:.5px;color:var(--amber);font-size:15px;text-align:right;white-space:nowrap;font-weight:500}
+
+  .rowbtns{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+  .btn{padding:15px;border-radius:11px;cursor:pointer;border:1px solid var(--line);background:var(--panel);
+    color:var(--ink);font-family:var(--stencil);letter-spacing:1.5px;text-transform:uppercase;font-size:14px;font-weight:600}
+  .btn.done{background:linear-gradient(180deg,var(--green),#3f7a4d);border:none;color:#0e1a11;grid-column:1/-1}
+  .btn:active{transform:translateY(1px)}
+
+  /* ---------- history ---------- */
+  .hcard{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 15px;margin-top:10px;
+    display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .hcard .ht{font-family:var(--stencil);text-transform:uppercase;letter-spacing:1px;font-size:17px}
+  .hcard .hs{font-size:12px;color:var(--dim);margin-top:3px;text-transform:capitalize}
+  .hcard .hd{font-family:var(--stencil);color:var(--olive);font-size:13px;letter-spacing:1px;text-align:right;white-space:nowrap}
+  .empty{text-align:center;color:var(--dim2);padding:50px 20px;font-size:14px;line-height:1.6}
+  .empty .bg{font-family:var(--stencil);font-size:20px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:6px}
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:6px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 10px;text-align:center}
+  .stat .v{font-family:var(--stencil);font-size:26px;font-weight:700;color:var(--olive);line-height:1}
+  .stat .k{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px}
+  .clear{display:block;margin:22px auto 0;background:none;border:none;color:var(--dim2);font-size:12px;
+    text-decoration:underline;cursor:pointer;letter-spacing:.5px}
+
+  /* ---------- bottom nav ---------- */
+  nav.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(15,19,23,.96);backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+  nav.tabs button{flex:1;background:none;border:none;color:var(--dim2);padding:12px 0 14px;cursor:pointer;
+    font-family:var(--stencil);letter-spacing:1.5px;text-transform:uppercase;font-size:12px;font-weight:600}
+  nav.tabs button.on{color:var(--olive)}
+  nav.tabs button .ic{display:block;font-size:19px;margin-bottom:3px}
+  .hidden{display:none}
+  .fade{animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hbar">
+    <div class="logo">RUCK <b>READY</b><span class="tick">// DAILY MISSION GENERATOR</span></div>
+    <div class="streak"><span class="n" id="streakN">0</span><span class="l">DAY<br>STREAK</span></div>
+  </div>
+</header>
+
+<!-- ======================= CHECK-IN ======================= -->
+<main class="wrap" id="screen-checkin">
+  <h2 class="section">Where are you training?</h2>
+  <div class="grid two" id="locGrid">
+    <div class="opt" data-v="home"><div class="big lab">Home Gym</div><small>Barbell · rack · KB · DB · bench · treadmill</small></div>
+    <div class="opt" data-v="cabin"><div class="big lab">Lake Cabin</div><small>Dumbbells + bodyweight</small></div>
+  </div>
+
+  <h2 class="section">How's the tank today?</h2>
+  <div class="grid four" id="energyGrid">
+    <div class="opt" data-v="1"><div class="big lab">Drained</div></div>
+    <div class="opt" data-v="2"><div class="big lab">OK</div></div>
+    <div class="opt" data-v="3"><div class="big lab">Good</div></div>
+    <div class="opt" data-v="4"><div class="big lab">Fired&nbsp;Up</div></div>
+  </div>
+
+  <h2 class="section">Anything sore or beat up?</h2>
+  <div class="chips" id="soreChips">
+    <div class="chip none" data-v="none">Nothing — all clear</div>
+    <div class="chip" data-v="chest">Chest</div>
+    <div class="chip" data-v="back">Back</div>
+    <div class="chip" data-v="shoulders">Shoulders</div>
+    <div class="chip" data-v="arms">Arms</div>
+    <div class="chip" data-v="legs">Legs</div>
+    <div class="chip" data-v="core">Core</div>
+  </div>
+
+  <h2 class="section">Focus for today</h2>
+  <div class="grid two" id="focusGrid">
+    <div class="opt" data-v="strength"><div class="big lab">Strength</div><small>Heavy lifts, low reps</small></div>
+    <div class="opt" data-v="conditioning"><div class="big lab">Conditioning</div><small>Circuits &amp; cardio</small></div>
+    <div class="opt" data-v="fullbody"><div class="big lab">Full-Body</div><small>Lift + circuit mix</small></div>
+    <div class="opt" data-v="grinder"><div class="big lab">Grinder</div><small>Military smoke session</small></div>
+  </div>
+
+  <h2 class="section">Time you've got</h2>
+  <div class="grid four" id="timeGrid">
+    <div class="opt" data-v="20"><div class="big lab">20</div><small>min</small></div>
+    <div class="opt" data-v="30"><div class="big lab">30</div><small>min</small></div>
+    <div class="opt" data-v="45"><div class="big lab">45</div><small>min</small></div>
+    <div class="opt" data-v="60"><div class="big lab">60</div><small>min</small></div>
+  </div>
+
+  <button class="cta" id="genBtn">Generate Mission</button>
+</main>
+
+<!-- ======================= WORKOUT ======================= -->
+<main class="wrap hidden" id="screen-workout"></main>
+
+<!-- ======================= HISTORY ======================= -->
+<main class="wrap hidden" id="screen-history"></main>
+
+<nav class="tabs">
+  <button id="tab-today" class="on" data-screen="checkin"><span class="ic">◎</span>Today</button>
+  <button id="tab-history" data-screen="history"><span class="ic">▤</span>Log</button>
+</nav>
+
+<script src="exercises.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
